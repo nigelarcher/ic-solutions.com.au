@@ -1,0 +1,39 @@
+INPUT.Search 
+{
+	font-size: 9px;
+	height: 16px;
+	width: 150px
+	
+}
+
+FONT.InfoText
+{
+	color: white
+}
+
+TABLE.InfoTable
+{
+	color: white
+}
+
+TD.Copyright
+{
+	color: white;
+	font-size: 12px
+}
+
+
+TD.DesignBy
+{
+	color: white;
+	font-size: 10px;
+}
+
+TD.DesignBy a:visited {color:white};
+TD.DesignBy a:link {color:white}
+
+TD { 
+	color:white;
+	font-size: 14px
+	
+}

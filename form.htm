@@ -1,0 +1,484 @@
+<html>
+<head>
+<title>IC-Solutions -- Contacts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="style.css" rel="stylesheet" type="text/css">
+<meta name="resource-type" content="document">
+<meta name="description" content="IC-Solutions web page consiting of hosting, hardware, software, design, development">
+<meta name="keywords" content="Software, Service, HTML, Hosting, Domain, Name, DNS, Products, Hardware, contacts, IC-SOLUTIONS, SOLUTIONS, Innovative, Computer, Solutions, Login, Site map, Help, Home, design, contract, contracts, email, server">
+<meta name="distribution" content="global">
+<style type="text/css">
+		/***************************************************************************\
+		|* This section is where you can change the look of the page.  *************|
+		\***************************************************************************/
+		* {
+			padding:0px;
+			margin:0px;
+			font-family:Tahoma, "MS Sans Serif", Arial;
+			font-size:10pt;
+			color:#4B4B4B;
+		}
+
+		body {
+			min-width:600px;
+			text-align:left;
+			background-image: url(../images/main3.gif);
+		}
+
+		#main-wrapper {
+			width:456px;
+			text-align:left;
+			margin:auto;
+			margin-top:20px;
+			background-color:#EEEEEE;
+			border-bottom:2px solid #4B4B4B;
+			border-right:2px solid #4B4B4B;
+		}
+
+		#main-padding {
+			padding:10px;
+		}
+
+		.footer-fix {
+			height:20px;
+		}
+
+		#menu {
+			text-align:center;
+			margin-top:20px;
+		}
+
+		#content {
+			margin-top:20px;
+		}
+
+		a {
+			color:#4B4B4B;
+		}
+		a:hover {
+			color:#999999;
+		}
+
+		h1 {
+			font-family:Georgia, "Times New Roman", Times, serif;
+			font-size:14pt;
+			margin-bottom:15px;
+		}
+
+		h2 {
+			font-family:Georgia, "Times New Roman", Times, serif;
+			font-size:10pt;
+			margin-bottom:15px;
+		}
+
+		.inline-image {
+			vertical-align:middle;
+		}
+
+		#map_canvas {
+			width:450px;
+			height:400px;
+			margin-top:15px;
+		}
+
+		#directions {
+			margin-top:10px;
+			width: 450px;
+		}
+
+		.form {
+			margin:0px;
+			padding:0px;
+			margin-top:20px;
+		}
+		.form-field {
+			vertical-align:middle;
+			border:1px solid #999999;
+			background-color:#EEEEEE;
+		}
+		.form-submit {
+			font-family:Georgia, "Times New Roman", Times, serif;
+			border:1px solid #999999;
+			background-color:#EEEEEE;
+			font-size:7pt;
+			font-weight:bold;
+		}
+
+		#main-wrapper #main-padding #bannerdiv {
+			width: 132px;
+		}
+		#main-wrapper #main-padding #headertextdiv {
+			width: 570px;
+			float: left;
+		}
+		#main-wrapper #main-padding #seperator {
+			border-top-width: 1px;
+			border-top-style: solid;
+			border-top-color: #CCCCCC;
+			margin: 7px;
+		}
+		#bannerAddress {
+			float: right;
+			width: 200px;
+		}
+		#bannerLogo {
+			width: 350px;
+			float: left;
+		}
+
+		/***************************************************************************\
+		|* The end of the styles ***************************|
+		\***************************************************************************/
+</style>
+<!--************************************************************-->
+<!--Visit Google Maps to get an api code for your website the link is http://code.google.com/apis/maps/signup.html -->
+<!--************************************************************-->
+<script src= "http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA0YmCXTJ1uEj-tn28LH8f6BSnpTKm-Xxzw0VdK1M-7pAqYJl7ABS11PBMd5zhK0eHt6S1-Gi5zwlc9Q" type="text/javascript"> </script>
+
+
+			<script language="javascript" type="text/javascript">
+// var BASE_CustomImg = '<place your image\'s URL here>'; // (Optional - Please uncomment)
+var BASE_CustomerKey = 'f6e20996-8a16-11df-ac6a-1231390c0e22'; // (Required)
+</script>
+<script type="text/javascript">
+/* Error messages for possible errors */
+		var error_address_empty 	= 'Please enter a valid address first.';
+		var error_invalid_address 	= 'This address is invalid. Make sure to enter your street number and city as well?';
+		var error_google_error 		= 'There was a problem processing your request, please try again.';
+		var error_no_map_info		= 'Sorry! Map information is not available for this address.';
+
+
+		/**********************************************************************************************************************/
+		/* CHANGE THIS TO YOUR ADDRESS - The default address of your store, This address will display on the map on startup */
+		/**********************************************************************************************************************/
+		var default_address = '156 Maitland Rd, Mayfield, NSW, 2304';
+
+
+
+		var current_address = null; /* Current address we are displaying, we save it here for directions */
+		var map				  = null; /* Instance of Google Maps object */
+		var geocoder		  = null; /* Instance of Google Deocoder object */
+		var gdir				  = null; /* Instance of Google Directions object */
+		var map_compatible  = false; /* Whether or not user's browser is compatible to show the map */
+
+		/* Check if the browser is compatible */
+		if( GBrowserIsCompatible() ) {
+			map_compatible = true;
+		}
+
+		/* Initialize the map this will be called when the document is loaded from: <body onLoad="initialize_map();"> */
+		function initialize_map() {
+			if( map_compatible ) {
+				map 	  	= new GMap2(document.getElementById('map_canvas'));
+				geocoder = new GClientGeocoder();
+				show_address(default_address);
+
+				/* This displays the zoom controls for the map. If you don't want them just delete the line */
+				map.addControl(new GSmallMapControl());
+
+				/* This displays the map type. If you don't want that feature then just delete this */
+				map.addControl(new GMapTypeControl());
+
+			}
+		}
+
+		/* This function will move the map and shows the address passed to it */
+		function show_address(address) {
+			if( map_compatible && geocoder ) {
+				/* Save this address in current_address value to use later if user wants directions */
+				current_address = address;
+				geocoder.getLatLng(
+				address,
+				function( point ) {
+					if( !point ) {
+						alert(error_no_map_info);
+					} else {
+						map.setCenter(point, 13);
+						var marker = new GMarker(point);
+						map.addOverlay(marker);
+						marker.openInfoWindowHtml(address);
+					}
+				}
+				);
+			}
+			return false;
+		}
+
+		/* Get the directions */
+		function get_directions() {
+			if( map_compatible ) {
+				if( document.direction_form.from_address.value == '' ) {
+					alert(error_address_empty);
+					return false;
+				}
+				/**
+				 * Delete the contents of 'directions' DIV first
+				 * because user might ask for directions more than once.
+				**/
+				document.getElementById('directions').innerHTML = '';
+
+				gdir = new GDirections(map, document.getElementById('directions'));
+
+				/* Setup to event handlers, one: when the directions are loaded, two: if there was any error */
+				GEvent.addListener(gdir, 'load',  onGDirectionsLoad);
+				GEvent.addListener(gdir, 'error', handleErrors);
+
+				/* Show the directions */
+				set_directions(document.direction_form.from_address.value, current_address);
+			}
+			return false;
+		}
+
+		/* This will actually set the directions on the map and loads the direction table */
+		function set_directions(fromAddress, toAddress) {
+      	gdir.load("from: " + fromAddress + " to: " + toAddress,
+                	{ "locale": "en" });
+    	}
+
+		/* This will handle the errors might happen while retrieving the directions */
+		function handleErrors(){
+			if( gdir.getStatus().code == G_GEO_UNKNOWN_ADDRESS )
+				alert(error_invalid_address);
+			else if( gdir.getStatus().code == G_GEO_SERVER_ERROR )
+				alert(error_google_error);
+			else if( gdir.getStatus().code == G_GEO_MISSING_QUERY )
+				alert(error_address_empty);
+			else
+				alert(error_invalid_address);
+		}
+
+		/* This function will be called when the directions are loaded */
+		function onGDirectionsLoad(){
+			/* We will simple scroll down to the directions, but with a little delay so it's loaded */
+			setTimeout('eval(\'window.location = "#directions_table"\;\')', 500);
+		}
+</script>
+</head>
+
+<body topmargin="0" bottommargin="0" rightmargin="0"  leftmargin="0" bgcolor="#DADADA" align="center" onLoad="initialize_map();">
+<div style="display: none; position:absolute; top: 0px; right: 0px; width: 116px; height: 72px; background-image: url('images/support.png');">
+<a href="icsremote.exe"><div style="width: 116px; height: 72px;"></div></a></div>
+<center>
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+	<tr>
+		<td align="center" valign="top" width="766">
+			<table cellpadding="0" cellspacing="0" border="0" width="766">
+			<tr>
+				<td valign="top" width="766"  background="images/j1.jpg">
+					<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td valign="top" width="20" background="images/j1.jpg"></td>
+						<td valign="top" width="249">
+							<table cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<td valign="top" width="42">
+									<img src="images/HeaderLeft.gif" width="42" height="303">
+								</td>
+								<td valign="top" width="207">
+									<table cellpadding="0" cellspacing="0" border="0">
+									<tr>
+										<td valign="top"><a border="0" href="index.htm"><img border="0" src="images/HeaderLogo.jpg" width="207" height="115"></a></td>
+									</tr>
+									<tr>
+										<td valign="top"><a border="0" href="hosting.htm" onmouseover="document.HeaderHosting.src='images/HeaderButtonHostingSelected.jpg'" onmouseout="document.HeaderHosting.src='images/HeaderButtonHosting.jpg'"><img border="0" src="images/HeaderButtonHosting.jpg" name="HeaderHosting" width="207" height="28"></a></td>
+									</tr>
+									<tr>
+										<td valign="top"><a border="0" href="Products.htm" onmouseover="document.HeaderProducts.src='images/HeaderButtonProductsSelecte.jpg'" onmouseout="document.HeaderProducts.src='images/HeaderButtonProducts.jpg'"><img border="0" src="images/HeaderButtonProducts.jpg" name="HeaderProducts" width="207" height="31"></a></td>
+									</tr>
+									<tr>
+										<td valign="top"><a border="0" href="Services.htm" onmouseover="document.HeaderServices.src='images/HeaderButtonServicesSelecte.jpg'" onmouseout="document.HeaderServices.src='images/HeaderButtonServices.jpg'"><img border="0" src="images/HeaderButtonServices.jpg" name="HeaderServices" width="207" height="31"></a></td>
+									</tr>
+									<tr>
+										<td valign="top"><a border="0" href="Software.htm" onmouseover="document.HeaderSoftware.src='images/HeaderButtonSoftwareSelecte.jpg'" onmouseout="document.HeaderSoftware.src='images/HeaderButtonSoftware.jpg'"><img border="0" src="images/HeaderButtonSoftware.jpg" name="HeaderSoftware" width="207" height="29"></a></td>
+									</tr>
+									<tr>
+										<td valign="top"><a border="0" href="Contacts.htm"onmouseover="document.HeaderContacts.src='images/HeaderButtonContactsSelecte.jpg'" onmouseout="document.HeaderContacts.src='images/HeaderButtonContacts.jpg'"><img border="0" src="images/HeaderButtonContacts.jpg" name="HeaderContacts" width="207" height="30"></a></td>
+									</tr>
+									<tr>
+										<td><img src="images/HeaderMenuBottom.jpg" width="207" height="39"></td>
+									</tr>
+									</table>
+								</td>
+								<td valign="top" width="477">
+									<table cellpadding="0" cellspacing="0">
+									<tr>
+										<td>
+											<table cellpadding="0" cellspacing="0">
+											<tr>
+												<td><img src="images/TopBar1.jpg" width="27" height="76"></td>
+												<td><a border="0" href="index.htm"><img border="0" src="images/TopBarHome.jpg" width="50" height="76"></a></td>
+												<td><a border="0" onclick="alert('Comming Soon');" href="#"><img border="0" src="images/TopBarHelp.jpg" width="39" height="76"></a></td>
+												<td><a border="0" onclick="alert('Comming Soon');" href="#"><img border="0" src="images/TopBarMap.jpg" width="65" height="76"></a></td>
+												<td><a border="0" onclick="alert('Comming Soon');" href="#"><img border="0" src="images/TopBarLogin.jpg" width="40" height="76"></a></td>
+												<td><img src="images/TopBar2.jpg" width="256" height="76"></td>
+											</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td><img src="images/HeaderMain.jpg" width="477" height="227"></td>
+									</tr>
+									</table>
+								</td>
+							</tr>
+							</table>
+						</td>
+						<td valign="top" width="20" background="images/j1.jpg"></td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td valign="top" width="726">
+					<table cellpadding="0" cellspacing="0" border="0" height="100%">
+					<tr>
+						<td valign="top" width="62" >
+							<table cellpadding="0" cellspacing="0" border="0" height="100%" width="62">
+							<tr>
+								<td valign="top" width="62" height="*" background="images/1.bg1.jpg" bgcolor="#FFFFFF"></td>
+							</tr>
+							<tr>
+								<td valign="top" width="62" height="7" background="images/1.bg2.jpg"></td>
+							</tr>
+							</table>
+						</td>
+						<td>
+							<table cellpadding="0" cellspacing="0" border="0" height="100%">
+							<tr>
+								<td valign="top">
+									<table cellpadding="0" cellspacing="0" border="0" height="100%">
+									<tr>
+										<td valign="top" width="212" height="100%" style="background-repeat:repeat-x " bgcolor="#FFFFFF">
+											<table cellpadding="0" cellspacing="0" border="0">
+											<tr>
+												<td valign="top" width="212" height="77">
+													<table cellpadding="0" cellspacing="0" border="0">
+													<tr>
+														<td><img src="images/SearchLeft.jpg" width="21" height="74"></td>
+														<td>
+															<table cellpadding="0" cellspacing="0" border="0">
+															<tr><td><img src="images/SearchTop.jpg" width="155" height="19"></td></tr>
+															<tr height="31">
+																<td height="31" background="images/SearchBody.jpg">
+																	<div style=" margin-left:2px; margin-top:1px ">
+																		<input style="width:136px; height:16px; border-style:solid; border-color:#7B7F96; background-color:#F2F2F3; border-width:1px "  name="" class="blue" type="text">
+																	</div>
+																</td>
+															</tr>
+															<tr>
+														<td>
+															<table cellpadding="0" cellspacing="0" border="0">
+															<tr>
+																<td>
+																	<table cellpadding="0" cellspacing="0" border="0">
+																	<tr>
+																		<td><a border="0" href="#" onclick="alert('Online store comming soon');"><img border="0" src="images/SearchAdvanced.jpg" width="95" height="15"></a></td>
+																	</tr>
+																	<tr>
+																		<td><img src="images/SearchBottom.jpg" width="95" height="9"></td>
+																	</tr>
+																	</table>
+																</td>
+																<td><img src="images/SearchBottomRight.jpg" width="60" height="24"></td>
+															</tr>
+															</table>
+														</td>
+													</tr>
+													</table>
+												</td>
+												<td><a border="0" href="#" onclick="alert('Online store comming soon');"><img border="0" src="images/SearchRight.jpg" width="31" height="74"></a></td>
+											</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td valign="top" width="212">
+<center>
+<script language="javascript">
+var baJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+document.write(unescape("%3Cscript src='" + baJsHost + "download.beanywhere.com/corporate/integration/js/integration.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<noscript>
+<a href="https://secure.corporate.beanywhere.com/integration/integration.php?uid=f6e20996-8a16-11df-ac6a-1231390c0e22"><img src='images/support.png' border="0" alt="" title=""></a>
+</noscript>
+</center>
+											<table cellpadding="0" cellspacing="0" border="0" height="100%">
+											<tr>
+												<td><img src="images/OurStaffTop.jpg" width="207" height="26"></td>
+											</tr>
+											<tr>
+												<td width="207" background="images/NewsBody.jpg">
+													<table width="100%" cellpadding="5" cellspacing="1" border="0">
+													<tr>
+														<td style="padding: 5px">
+															<div style="margin-left:5px; margin-right:5px; margin-top:0px " class="blue">
+																<Strong>Nigel Archer</Strong><BR>
+																<div class="blue1">Qualifications: Bachelor of Computer Engineering</div>
+																Nigel Specialises in the design and development of custom built software. His experience and expertise can bring your projects into being. He has in-depth knowledge of the construction of the components of a PC and with this balanced knowledge can insure that your staff's computer systems continue to perform efficiently.<BR>
+																<Strong>Dan Follett</Strong><BR>
+																<div class="blue1">Qualifications: Bachelor of Computer Science</div>
+																Dan has the qualifications to understand the workings of a computer allowing him to make informed decisions on the best advice to give whenever you have an upgrade and a problem. He has being assisting local businesses with their problems and has been trusted to give advice since 1999.<BR>
+																<Strong>Michael Anderson</Strong><br>
+																<div class="blue1">Qualifications: Bachelor of Computer Science</div>
+																Michael also specialises in the design and development of software and has worked internationally. His knowledge of the underlying workings of the computer systems allows him to make educated decisions on the best course of action for your company.
+																<Strong>Mathew Willis</Strong><br>
+																<div class="blue1">Qualifications: Diploma</div>
+
+
+															</div>
+													  </td>
+													</tr>
+													<!--<tr>
+														<td align="right"><div style="margin-left:10px; margin-right:10px; margin-top:0px " class="s1"><a border="0" href="#"><img border="0" src="images/NewsMore.jpg"></a></div></td>
+													</tr>-->
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td><img src="images/NewsBottom.jpg" width="207" height="132"></td>
+											 </tr>
+											</table>
+										</td>
+									</tr>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td valign="top" width="212" height="7" background="images/1.bg2.jpg"></td>
+							</tr>
+							</table>
+						</td>
+						<td valign="top" height="100%">
+							<script type="text/javascript" src="https://formscentral.acrobat.com/Clients/Current/FormsCentral/htmlClient/scripts/adobe.form.embed.min.js"></script>
+<script type="text/javascript">;ADOBEFORMS.EmbedForm({formId:"N0h*COUz5AxDHu2EJkTkNw"});</script>
+						</td>
+						<td valign="top" width="62" >
+							<table cellpadding="0" cellspacing="0" border="0" height="100%" width="62">
+							<tr>
+								<td valign="top" width="62" height="*" background="images/1.bg1.jpg" bgcolor="#FFFFFF"></td>
+							</tr>
+							<tr>
+								<td valign="top" width="62" height="7" background="images/1.bg2.jpg"></td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

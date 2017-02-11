@@ -1,0 +1,31 @@
+  
+	.s{font-family:Tahoma; font-size:11px;  color:#9699AB; text-decoration:none}
+	.s1{font-family:Tahoma; font-size:11px;  color:#818181; text-decoration:none}
+	.s2{font-family:Tahoma; font-size:9px;  color:#9699AB; text-decoration:none}
+	.s3{font-family:Tahoma; font-size:9px;  color:#666666; text-decoration:none}
+			  .s4{font-family:Tahoma; font-size:9px;  color:#818181;text-decoration:none}
+ 			  .orange{font-family:Tahoma; font-size:11px;  color:#F77D06; text-decoration:none }
+			  .orange1{font-family:Tahoma; font-size:11px;  color:#F77D06;  }
+  	.blue{font-family:Tahoma; font-size:11px;  color:#696D88; text-decoration:none }
+	.blue1{font-family:Tahoma; font-size:11px;  color:#35609A; text-decoration:none }
+	.blue2{font-family:Tahoma; font-size:11px;  color:#35609A;}
+   
+  			 .white{font-family:Tahoma; font-size:9px;  color:#FFFFFF;}
+  
+  #input{
+  		width:79px; height:13px;
+		border-width:1px;
+		border-style:solid;
+		border:none;
+		background-color:#F0EAE3;
+		}
+		 
+		
+	  #textarea{
+  		width:102px; height:48px;
+		border-width:1px;
+		border-style:solid;
+		border:none;
+		background-color:#F0EAE3;
+		overflow:auto
+		}

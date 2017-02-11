@@ -1,0 +1,4 @@
+DIR:/cgi-bin:[user]:[group]:755
+FILE:/constructionBG.gif:[user]:[group]:644:e6258e46ceeeeec7da6b2dbeaea46a4e
+TPL:/index.html:[user]:[group]:644:df31826170fe3301c4c90bb5ec090ac2
+FILE:/.listing:root:root:644:d41d8cd98f00b204e9800998ecf8427e
